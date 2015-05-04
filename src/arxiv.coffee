@@ -10,10 +10,10 @@ parser = require('feedparser')
 
 module.exports = (robot) ->
   robot.respond /(arxiv)( me)? (.*)/i, (msg) ->
-    imageMe msg, msg.match[3], (url) ->
+    articleMe msg, msg.match[3], (url) ->
       msg.send url
 
-imageMe = (msg, query, url) ->
+articleMe = (msg, query, url) ->
   query_url = 'http://export.arxiv.org/api/query?search_query=all:' + query.replace(/\s+/, "+") + "&sortBy=lastUpdatedDate"
   rs = request(query_url)
   fp = rs.pipe(new parser())
