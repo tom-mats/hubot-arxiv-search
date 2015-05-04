@@ -14,14 +14,11 @@ module.exports = (robot) ->
       msg.send url
 
 imageMe = (msg, query, url) ->
-  query_url = 'http://export.arxiv.org/api/query?search_query=all:' + query.replace(/\s+/, "+")
-  result  = []
-  index = 0
+  query_url = 'http://export.arxiv.org/api/query?search_query=all:' + query.replace(/\s+/, "+") + "&sortBy=lastUpdatedDate"
   rs = request(query_url)
   fp = rs.pipe(new parser())
     .on('readable', () ->
        stream = fp
-       index = index + 1
        while item = stream.read()
          msg.send "#{item.title}\n#{item.link.replace("/abs/", "/pdf/")}"
     )
